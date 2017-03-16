@@ -39,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
     private ZoomControls zoom;
     private Button mkButton;
+    private Button clearButton;
     private Button satView;
     private Button geoLocationButton;
     private Double myLongitude = null, myLatitude = null;
@@ -112,6 +113,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+        clearButton = (Button) findViewById(R.id.btClear);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.clear();
+            }
+        });
+
         satView = (Button) findViewById(R.id.btSatellite);
         satView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +156,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.addMarker(new MarkerOptions().position(latLng).title("from onMapClick"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+            }
+        });
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
