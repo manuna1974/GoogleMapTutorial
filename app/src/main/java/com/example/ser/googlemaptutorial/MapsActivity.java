@@ -39,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
     private ZoomControls zoom;
     private Button mkButton;
+    private Button satView;
     private Button geoLocationButton;
     private Double myLongitude = null, myLatitude = null;
     private GoogleApiClient googleApiClient;
@@ -108,6 +109,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(latLng).title("from geocoder"));
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                }
+            }
+        });
+        satView = (Button) findViewById(R.id.btSatellite);
+        satView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL){
+                    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    satView.setText("NORM");
+                }else {
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    satView.setText("SAT");
+
                 }
             }
         });
